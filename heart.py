@@ -3,21 +3,31 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 responses = {
-    "hello": {"text": "Rawrrr! How can I help you today?", "gif": "https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif"},
-    "hi": {"text": "Rawrrr! How can I help you today?", "gif": "https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif"},
-    "bye": {"text": "Arigato! Have a great day!", "gif": None}
+    "hey": "Rawrrr! How can I help you today?",
+    "hi": "Rawrrr! How can I help you today?",
+    "hello": "Rawrrr! How can I help you today?",
+    "bye": "Arigato! Have a great day!",
+    "how are you": "You Brat I'm Kurama😂!! How about you?",
+    "what's your name": "I'm Kurama, your friendly AI assistant!",
+    "thank you": "Rawrrr! Let me know if you need more help.",
+    "who created you": "I was created by Nivas",
+    "what can you do": "I can chat with you and answer your questions. Try me!",
+    "good morning": "Good morning! How’s your day going?",
+    "good night": "Good night! Sweet dreams!",
+    "i love you": "Aw, that's sweet! I love chatting with you too!"
+
 }
 
 python_responses = {
-    "variable": "A variable stores data. Example:\n```python\nx = 5\ny = 'Hello'\nprint(x, y)\n```",
-    "function": "A function is a reusable block of code. Example:\n```python\ndef greet():\n    print('Hello')\ngreet()\n```",
-    "loop": "A loop repeats a block of code. Example:\n```python\nfor i in range(5):\n    print(i)\n```",
-    "if statement": "An if statement runs code based on a condition. Example:\n```python\nx = 10\nif x > 5:\n    print('x is greater than 5')\n```",
-    "list": "A list holds multiple values. Example:\n```python\nmy_list = [1, 2, 3]\nprint(my_list)\n```",
-    "dictionary": "A dictionary stores key-value pairs. Example:\n```python\nmy_dict = {'name': 'John', 'age': 30}\nprint(my_dict['name'])\n```",
-    "class": "A class defines an object blueprint. Example:\n```python\nclass Person:\n    def __init__(self, name):\n        self.name = name\n\np = Person('John')\nprint(p.name)\n```",
-    "inheritance": "Inheritance allows a class to use another class's methods. Example:\n```python\nclass Animal:\n    def speak(self):\n        print('Animal speaks')\n\nclass Dog(Animal):\n    pass\n\nmy_dog = Dog()\nmy_dog.speak()\n```",
-    "import": "You can import modules to use extra functions. Example:\n```python\nimport math\nprint(math.sqrt(16))\n```"
+    "what is a variable": "A variable stores data. Example:\n```python\nx = 5\ny = 'Hello'\nprint(x, y)\n```",
+    "what is function": "A function is a reusable block of code. Example:\n```python\ndef greet():\n    print('Hello')\ngreet()\n```",
+    "what is loop": "A loop repeats a block of code. Example:\n```python\nfor i in range(5):\n    print(i)\n```",
+    "what is if statement": "An if statement runs code based on a condition. Example:\n```python\nx = 10\nif x > 5:\n    print('x is greater than 5')\n```",
+    "what is list": "A list holds multiple values. Example:\n```python\nmy_list = [1, 2, 3]\nprint(my_list)\n```",
+    "what is dictionary": "A dictionary stores key-value pairs. Example:\n```python\nmy_dict = {'name': 'John', 'age': 30}\nprint(my_dict['name'])\n```",
+    "what is class": "A class defines an object blueprint. Example:\n```python\nclass Person:\n    def __init__(self, name):\n        self.name = name\n\np = Person('John')\nprint(p.name)\n```",
+    "what is inheritance": "Inheritance allows a class to use another class's methods. Example:\n```python\nclass Animal:\n    def speak(self):\n        print('Animal speaks')\n\nclass Dog(Animal):\n    pass\n\nmy_dog = Dog()\nmy_dog.speak()\n```",
+    "what is import": "You can import modules to use extra functions. Example:\n```python\nimport math\nprint(math.sqrt(16))\n```"
 }
 
 @app.route('/')
