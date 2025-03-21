@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurama AI Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .chat-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            padding: 1rem;
+            background-color: #f7fafc;
+        }
+        .chat-header {
+            text-align: center;
+            padding: 1rem;
+            background-color: #1e40af;
+            color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 0;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: white;
+        }
+        .chat-message {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            animation: messagePop 0.3s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        @keyframes messagePop {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .chat-message.user {
+            align-items: flex-end;
+        }
+        .chat-message.bot {
+            align-items: flex-start;
+        }
+        .chat-message.user .message {
+            background-color: #1e40af;
+            color: white;
+        }
+        .chat-message.bot .message {
+            background-color: #e2e8f0;
+            color: black;
+        }
+        .message {
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            max-width: 85%;
+            word-break: break-word;
+        }
+        .bot-container {
+            display: flex;
+            align-items: flex-end;
+        }
+        .chat-input {
+            display: flex;
+            background-color: white;
+            border-radius: 0 0 0.5rem 0.5rem;
+            padding: 0.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        .chat-input button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background-color: #1e40af;
+            color: white;
+            border-radius: 1.5rem;
+            cursor: pointer;
+        }
+        .chat-input button:hover {
+            background-color: #4338ca;
+        }
+        @media (min-width: 640px) {
+            .chat-container {
+                max-width: 600px;
+                margin: 0 auto;
+                height: 100vh;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="chat-container">
+        <div class="chat-header">
+            <img src="{{ url_for('static', filename='kurama.png') }}" alt="Kurama" class="w-10 h-10 rounded-full mr-2">
+            <h1 class="text-xl font-bold">Kurama AI</h1>
+        </div>
+        <div class="chat-box" id="chat-box">
+            <div class="chat-message bot">
+                <div class="bot-container">
+                    <img src="{{ url_for('static', filename='kurama.png') }}" alt="Kurama" class="w-8 h-8 rounded-full mr-2">
+                    <div class="message">Rawrr! I'm Kurama. How can I help you today?</div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type a message..." class="w-full">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script>
+        // Add this to ensure smooth animations at 120fps
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.transform = 'translateZ(0)';
+            document.body.style.backfaceVisibility = 'hidden';
+        });
+
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            if (userInput.trim() === '') return;
+
+            const chatBox = document.getElementById('chat-box');
+
+            // User message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message user';
+            userMessage.innerHTML = `<div class="message">${userInput}</div>`;
+            chatBox.appendChild(userMessage);
+
+            // Force reflow to trigger the animation properly
+            void userMessage.offsetWidth;
+
+            // Ensure smooth scrolling
+            requestAnimationFrame(() => {
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+
+            document.getElementById('user-input').value = '';
+
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `user_input=${encodeURIComponent(userInput)}`,
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'chat-message bot';
+
+                let messageContent = `
+                    <div class="bot-container">
+                        <img src="{{ url_for('static', filename='kurama.png') }}" alt="Kurama" class="w-8 h-8 rounded-full mr-2">
+                        <div class="message">${data.response}</div>
+                    </div>
+                `;
+
+                // If a GIF is available, show it
+                if (data.gif) {
+                    messageContent += `
+                        <img src="${data.gif}" alt="Kurama GIF" class="w-32 h-32 rounded-lg mt-2">
+                    `;
+                }
+
+                botMessage.innerHTML = messageContent;
+                chatBox.appendChild(botMessage);
+
+                // Force reflow for animation
+                void botMessage.offsetWidth;
+
+                // Ensure smooth scrolling
+                requestAnimationFrame(() => {
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                });
+            });
+        }
+
+        // Add event listener for Enter key
+        document.getElementById('user-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+
+</body>
+</html>

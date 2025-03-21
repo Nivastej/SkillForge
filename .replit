@@ -1,0 +1,23 @@
+modules = ["python-3.11"]
+run = "host='0.0.0.0'"
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "python heart.py"]
+
+[workflows]
+runButton = "Run Server"
+
+[[workflows.workflow]]
+name = "Run Server"
+author = 24720906
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python heart.py"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
