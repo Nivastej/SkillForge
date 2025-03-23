@@ -26,8 +26,7 @@ python_responses = {
     "what is a dictionary": "A dictionary stores key-value pairs. Example:\n```python\nmy_dict = {'name': 'John', 'age': 30}\nprint(my_dict['name'])\n```",
     "explain class": "A class defines an object blueprint. Example:\n```python\nclass Person:\n    def __init__(self, name):\n        self.name = name\np = Person('John')\nprint(p.name)\n```",
     "how does inheritance work": "Inheritance allows a class to use another class's methods. Example:\n```python\nclass Animal:\n    def speak(self):\n        print('Animal speaks')\nclass Dog(Animal):\n    pass\nmy_dog = Dog()\nmy_dog.speak()\n```",
-    "what is try except": "Use try-except to handle errors. Example:\n```python\ntry:\n    x = 1 / 0
-except ZeroDivisionError:\n    print('Cannot divide by zero')\n```",
+    "what is try except": "Use try-except to handle errors. Example:\n```python\ntry:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    print('Cannot divide by zero')\n```",
     "how to use lambda": "Lambda functions are anonymous functions. Example:\n```python\nsquare = lambda x: x * x\nprint(square(5))\n```",
     "how to open a file": "Use `open()` to open files. Example:\n```python\nwith open('file.txt', 'r') as file:\n    content = file.read()\nprint(content)\n```",
     "what is a tuple": "A tuple is an immutable list. Example:\n```python\ntuple_example = (1, 2, 3)\nprint(tuple_example)\n```",
@@ -82,4 +81,5 @@ def chat():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
+
 
