@@ -80,7 +80,7 @@ def chat():
     return jsonify({"response": "I'm not sure how to respond to that. Can you clarify?"})
 
 @app.route('/kurama')
-def home():
+def kurama():
     return render_template('chatbot.html')
 
 if __name__ == '__main__':
