@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Engineering & LLMs</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #8a6fff;
+            --card-bg: #1e1e1e;
+            --secondary-bg: #252525;
+            --highlight: #6b4fff;
+            --kurama-color: #ff4d4d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin: 3rem 0 4rem;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            gap: 1rem;
+        }
+
+        .author-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .post-meta {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .featured-image {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .post-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin: 2.5rem 0 1.5rem;
+            color: var(--text-color);
+        }
+
+        .post-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .highlight {
+            background-color: var(--secondary-bg);
+            border-left: 4px solid var(--highlight);
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--highlight);
+        }
+
+        .kurama-button {
+            display: inline-block;
+            background-color: var(--kurama-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+        }
+
+        .kurama-button:hover {
+            background-color: #e63939;
+        }
+
+        .kurama-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kurama-icon img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        footer {
+            background-color: var(--secondary-bg);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid #333;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .stats-box {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>Simple LLM Prompt Compression Analysis</h1>
+        </div>
+
+        <div class="author">
+            <img src="static/kurama.png" alt="Kurama" class="author-image" />
+            <div class="author-details">
+                <span class="author-name">Nivas</span>
+                <span class="post-meta">5 min read </span>
+            </div>
+        </div>
+
+        <p class="post-content">
+            In the world of Language Learning Models (LLMs), prompt compression is a fascinating and crucial topic. It involves the process of reducing the size of the prompts that are fed into these models without losing the essential information they carry. This blog post will dive into the details of Simple LLM Prompt Compression Analysis with an example that reduced my costs up to 62%.
+        </p>
+
+        <div style="position: relative; overflow: hidden; border-radius: 8px;">
+            <img src="static/llmm.png" alt="LLM Prompt Compression" class="featured-image" />
+            <div style="position: absolute; bottom: 0; right: 0; background-color: rgba(106, 90, 205, 0.8); padding: 15px 20px; border-top-left-radius: 8px;">
+               
+        </div>
+
+        <h2>What is Prompt Compression?</h2>
+
+        <p class="post-content">
+            Prompt compression, in the context of LLMs, refers to the process of minimizing the length of the input prompts while maintaining the quality of the model’s output. The goal is to achieve the same or similar results with fewer input tokens. This is particularly important because many LLMs have a maximum token limit for their inputs.
+        </p>
+
+        <div class="highlight">
+            <p><strong>Key benefit:</strong> By reducing prompt size without sacrificing quality, you can significantly reduce API costs when working with commercial LLM providers.</p>
+        </div>
+
+        <h2>Let's do a Practical Analysis</h2>
+
+        <p class="post-content">
+            Here I am using a prompt to generate a blog. This prompt has 105 tokens. If we do a cost analysis using the GPT-4 API, a single API call would cost me around 0.26 paise.
+        </p>
+
+        <div>
+            <ol>
+                Actual Prompt: I want you to act as a blogger and write a blog post about the benefits of meditation for beginners, with a friendly and approachable tone that engages readers. Your target audience is individuals who are interested in improving their mental well-being. Write in a personal style using singular first-person pronouns only. Please include the keywords “mindfulness”, “relaxation”, and “stress reduction” throughout the article. Format your response using markdown. Use headings, subheadings, bullet points, and bold to organize the information.
+            </ol>
+        </div>
+
+        <div>
+            <ol><p>Now, I used Microsoft Bing in precise mode to reduce the size of the prompt. I simply prompted it like this: I am giving you a prompt and your role is to reduce the prompt size by keeping the information intact. This should be a lossless compression and you need to be utmost sure that the same value is provided by this reduced prompt. The objective is to reduce prompt size for reducing API cost. </ol></p>
+            </div>
+        <p>The result had 39 tokens and it will only cost us 0.098 paise/API call, which is a 62% reduction in price.</p>
+
+        <p>Reduced Prompt: Write a beginner-friendly blog on meditation benefits, targeting individuals seeking mental well-being. Use “I”, include “mindfulness”, “relaxation”, “stress reduction”, and format with markdown.</p>
+
+        <img src="static/page.png" alt="Page Image" class="featured-image" />
+
+        <p>Note: Words like Lossless Compression and Providing Consistent value are super important.</p>
+
+        <div class="card">
+            <h3>Need help with prompt compression?</h3>
+            <p>Get personalized advice on optimizing your prompts and reducing your token usage.</p>
+            <a href="/kurama" class="kurama-button">
+                <span class="kurama-icon">
+                    <img src="static/kurama.png" alt="Kurama" />
+                </span>
+                Ask Kurama
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 Nivas Vodapally.</p>
+        </div>
+    </footer>
+</body>
+</html>

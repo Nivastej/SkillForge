@@ -22,36 +22,30 @@ python_responses = {
     "explain functions": "A function is a reusable block of code. Example:\n```python\ndef greet():\n    print('Hello')\ngreet()\n```",
     "how to use a loop": "A loop repeats a block of code. Example:\n```python\nfor i in range(5):\n    print(i)\n```",
     "what is an if statement": "An if statement runs code based on a condition. Example:\n```python\nx = 10\nif x > 5:\n    print('x is greater than 5')\n```",
-    "how to create a list": "A list holds multiple values. Example:\n```python\nmy_list = [1, 2, 3]\nprint(my_list)\n```",
-    "what is a dictionary": "A dictionary stores key-value pairs. Example:\n```python\nmy_dict = {'name': 'John', 'age': 30}\nprint(my_dict['name'])\n```",
-    "explain class": "A class defines an object blueprint. Example:\n```python\nclass Person:\n    def __init__(self, name):\n        self.name = name\np = Person('John')\nprint(p.name)\n```",
-    "how does inheritance work": "Inheritance allows a class to use another class's methods. Example:\n```python\nclass Animal:\n    def speak(self):\n        print('Animal speaks')\nclass Dog(Animal):\n    pass\nmy_dog = Dog()\nmy_dog.speak()\n```",
-    "what is try except": "Use try-except to handle errors. Example:\n```python\ntry:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    print('Cannot divide by zero')\n```",
-    "how to use lambda": "Lambda functions are anonymous functions. Example:\n```python\nsquare = lambda x: x * x\nprint(square(5))\n```",
-    "how to open a file": "Use `open()` to open files. Example:\n```python\nwith open('file.txt', 'r') as file:\n    content = file.read()\nprint(content)\n```",
-    "what is a tuple": "A tuple is an immutable list. Example:\n```python\ntuple_example = (1, 2, 3)\nprint(tuple_example)\n```",
-    "how to use list comprehension": "List comprehension creates a list in one line. Example:\n```python\nsquares = [x**2 for x in range(10)]\nprint(squares)\n```",
-    "explain recursion": "Recursion is a function that calls itself. Example:\n```python\ndef factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n-1)\nprint(factorial(5))\n```",
-    "how to use map": "Map applies a function to all items in a list. Example:\n```python\nnums = [1, 2, 3]\nsquared = list(map(lambda x: x**2, nums))\nprint(squared)\n```",
-    "what is pip": "Pip is a package manager for Python libraries. Example:\n```bash\npip install requests\n```",
-    "what is a module": "A module is a file containing Python definitions and functions. Example:\n```python\nimport math\nprint(math.sqrt(16))\n```",
-    "how to use async": "Async allows non-blocking code execution. Example:\n```python\nimport asyncio\nasync def main():\n    print('Hello')\n    await asyncio.sleep(1)\n    print('World')\nasyncio.run(main())\n```",
-    "what is a generator": "A generator yields values one at a time. Example:\n```python\ndef my_generator():\n    yield 1\n    yield 2\n    yield 3\nfor value in my_generator():\n    print(value)\n```"
+    "how to create a list": "A list holds multiple values. Example:\n```python\nmy_list = [1, 2, 3]\nprint(my_list)\n```"
 }
 
-career_responses = [
-    "The tech field is huge! You can try web development, data science, or cybersecurity. Let me know if you’d like a roadmap!",
-    "AI is booming right now! Have you considered machine learning or natural language processing?",
-    "Frontend or backend development? Both are in demand! I can help you pick one if you’re unsure.",
-    "If you like problem-solving, you could explore competitive programming or software engineering!",
-    "Cybersecurity is hot! Protecting data is more important than ever. Interested in learning more?",
-    "UI/UX design combines creativity and tech skills. Want to explore it?",
-    "Cloud computing is in high demand. Have you looked into AWS, Azure, or Google Cloud?",
-    "If you enjoy working with data, data engineering and data analysis could be your thing!",
-    "DevOps helps automate software delivery. Want to learn more about it?",
-    "Game development is creative and technical. Have you thought about Unity or Unreal Engine?",
-    "Product management is a great mix of business and tech. Want to hear more?"
-]
+career_roadmaps = {
+    "ai": "To get into AI, you should: \n1. Learn Python and Math.\n2. Study Machine Learning.\n3. Get familiar with TensorFlow and PyTorch.\n4. Build AI projects.\n5. Apply for AI roles.",
+    "web development": "If you’re thinking about web development, start here: \n1. Learn HTML, CSS, and JavaScript.\n2. Pick a frontend framework like React or Vue.\n3. Learn backend with Node.js or Django.\n4. Build full-stack projects.\n5. Apply for web developer roles.",
+    "data science": "For data science, follow this roadmap: \n1. Learn Python and SQL.\n2. Study statistics and data visualization.\n3. Learn machine learning.\n4. Work on real datasets.\n5. Apply for data science roles.",
+    "cybersecurity": "Want to protect the internet? Here’s the plan: \n1. Learn Networking and Security Fundamentals.\n2. Study Encryption and Threat Analysis.\n3. Get familiar with Security Tools.\n4. Practice with Capture The Flag (CTF) challenges.\n5. Apply for cybersecurity roles.",
+    "game development": "Game development is exciting! Try this: \n1. Learn C# or C++.\n2. Get familiar with Unity or Unreal Engine.\n3. Create simple games.\n4. Study game physics and AI.\n5. Build a portfolio and apply for game dev roles.",
+    "cloud computing": "For cloud computing, follow this: \n1. Learn AWS, Azure, or Google Cloud.\n2. Study containerization (Docker, Kubernetes).\n3. Understand Infrastructure as Code (Terraform).\n4. Build cloud-based projects.\n5. Get certified and apply for cloud roles.",
+    "product management": "Product management blends business and tech skills: \n1. Learn about product lifecycle and market research.\n2. Understand user experience and design thinking.\n3. Study Agile and Scrum methodologies.\n4. Work on product strategy.\n5. Apply for product manager roles.",
+    "ui/ux design": "UI/UX design is creative and strategic: \n1. Learn design tools like Figma and Sketch.\n2. Understand user behavior and interaction.\n3. Build wireframes and prototypes.\n4. Get feedback and refine your designs.\n5. Build a portfolio and apply for UI/UX roles."
+}
+
+@app.route('/career_roadmap', methods=['POST'])
+def career_roadmap():
+    career_path = request.form.get('career_path').lower().strip()
+
+    if career_path in career_roadmaps:
+        roadmap = career_roadmaps[career_path]
+    else:
+        roadmap = "I’m not sure about that path yet. Try asking about AI, Web Development, Data Science, or Cybersecurity!"
+
+    return jsonify({"roadmap": roadmap})
 
 @app.route('/')
 def home():
@@ -74,8 +68,12 @@ def chat():
         if key in user_input:
             return jsonify({"response": reply})
 
+    for career in career_roadmaps:
+        if career in user_input:
+            return jsonify({"response": career_roadmaps[career]})
+
     if "career" in user_input:
-        return jsonify({"response": random.choice(career_responses)})
+        return jsonify({"response": "Curious about career options? You can ask about AI, Web Development, Data Science, Cybersecurity, Game Development, Cloud Computing, Product Management, or UI/UX Design!"})
 
     return jsonify({"response": "I'm not sure how to respond to that. Can you clarify?"})
 
@@ -83,7 +81,10 @@ def chat():
 def kurama():
     return render_template('chatbot.html')
 
+@app.route('/LLM')
+def LLM():
+    return render_template('LLM.html')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
-
-
